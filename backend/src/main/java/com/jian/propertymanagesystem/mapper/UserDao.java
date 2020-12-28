@@ -1,16 +1,17 @@
 package com.jian.propertymanagesystem.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jian.propertymanagesystem.entity.Test;
-import org.apache.ibatis.annotations.Mapper;
+import com.jian.propertymanagesystem.entity.User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  * @Author: qtj
- * @Date: 2020/12/21 22:18
+ * @Date: 2020/12/26 15:56
  * @Version
  */
-public interface TestMapper  extends BaseMapper<Test> {
-
+@Repository
+@Component
+public interface UserDao  extends BaseMapper<User> {
+    User getUserByUserName(String name);
 }

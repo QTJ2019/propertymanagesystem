@@ -6,7 +6,6 @@ import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 
  Vue.use(VueRouter)  //安装插件 
-
   //配置映射关系
 const routes: Array<RouteConfig> = [
   {

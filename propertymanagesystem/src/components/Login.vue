@@ -101,8 +101,13 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(this.ruleForm.pass);
-            alert('submit!');
+            const url = "/system/process?username="+this.ruleForm.user+"&password="+this.ruleForm.pass;
+            this.$http.post(url)
+                 .then(function(response){
+                     alert(response.data.message);
+                    
+                 })
+            
           } else {
             console.log('error submit!!');
             return false;

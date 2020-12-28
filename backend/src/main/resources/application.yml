@@ -1,6 +1,11 @@
 #端口号配置
 server:
   port: 8089 #数据库连接配置
+  servlet:
+    context-path: /system
+    session:
+      timeout: 3600s #设置会话的超时时间
+
 spring:
   profiles:
     active:
@@ -24,7 +29,7 @@ jackson:
 logging:
   level:
     root: warn
-    com.scau.mapper: trace
+    com.jian.propertymanagesystem.mapper: trace
   pattern:
     console: '%p%m%n'
 
