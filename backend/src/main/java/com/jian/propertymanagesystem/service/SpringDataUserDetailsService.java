@@ -2,12 +2,16 @@ package com.jian.propertymanagesystem.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jian.propertymanagesystem.entity.User;
+import com.jian.propertymanagesystem.mapper.PermissionDao;
 import com.jian.propertymanagesystem.mapper.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @Author: qtj
@@ -18,6 +22,8 @@ import org.springframework.stereotype.Service;
 public class SpringDataUserDetailsService implements UserDetailsService {
     @Autowired
     UserDao userDao;
+    @Autowired
+    PermissionDao permissionDao;
     //根据账号查询用户信息
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -26,7 +32,12 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         User user = userDao.selectOne(queryWrapper);
         if (user == null)
             return  null; //返回空Spring Security会帮我们抛出错误
-        UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.getPhone()).password(user.getPassword()).authorities("p1").build();//这里是比对密码
+        List<String> permissions = permissionDao.findPermissionByUserId(user.getId());
+        String[] perArray = new String[permissions.size()];
+        permissions.toArray(perArray);
+        UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.getPhone()).password(user.getPassword()).authorities(perArray).build();//这里是比对密码
         return userDetails;
     }
+
+
 }

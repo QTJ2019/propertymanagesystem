@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jian.propertymanagesystem.mapper.PermissionDao">
+    <select id="findPermissionByUserId" resultType="java.lang.String">
+        SELECT CODE
+FROM
+	t_permission
+WHERE
+	id IN ( SELECT permission_id FROM t_user a JOIN t_role_pemission b ON a.role_id = b.role_id WHERE id = #{userId} );
+    </select>
+
+
+</mapper>

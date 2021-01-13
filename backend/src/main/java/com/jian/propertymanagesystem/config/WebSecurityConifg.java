@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @Configuration
 //下面的注解使得SpringMVC集成了Spring Security的web安全支持
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true , securedEnabled = true)  //这里要配置，才能在接口上使用@preAuthorize,@postAuthorize,@Secured
 public class WebSecurityConifg extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,7 +35,7 @@ public class WebSecurityConifg extends WebSecurityConfigurerAdapter {
                  //.anyRequest().authenticated()//所有的请求必须认证通过
                  .and()
                 .formLogin() //对表单认证相关的配置
-                 //.loginPage("/login")
+                 .loginPage("http://localhost:8080/login")
                  .loginProcessingUrl("/process") //实际表单向后台提交用户信息的Action，再由过滤器UsernamePasswordAuthenticationFilter拦截处理
                  .successForwardUrl("/login/success") //认证成功后会跳转到此
                  .failureForwardUrl("/login/fail")//登录失败后会调用的接口
