@@ -1,0 +1,58 @@
+{
+  "id": "2350884",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "16457687",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "16457828",
+      "name": "chart",
+      "font_class": "chart",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "16457829",
+      "name": "component",
+      "font_class": "component",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "16457835",
+      "name": "excel",
+      "font_class": "excel",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "16457836",
+      "name": "example",
+      "font_class": "example",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "16457837",
+      "name": "edit",
+      "font_class": "edit",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "16457854",
+      "name": "message",
+      "font_class": "message",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    }
+  ]
+}

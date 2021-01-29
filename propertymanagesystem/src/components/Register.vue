@@ -79,7 +79,8 @@
 
 <script>
 export default {
-  name: "Register",
+  // name后面配置的是文件的名称
+  name: "Register" ,
   data() {
     const checkAccount = (rule, value, callback) => {
       if (!value) {

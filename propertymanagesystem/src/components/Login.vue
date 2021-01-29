@@ -104,9 +104,16 @@ export default {
             const url = "/system/process?username="+this.ruleForm.user+"&password="+this.ruleForm.pass;
             this.$http.post(url)
                  .then(function(response){
-                     alert(response.data.message);
+                     if(response.data.success){
+                       console.log(response);
+                       const jsessionid = response.data.data.jsessionid;
+                       window.sessionStorage.setItem('jsessionid',jsessionid);
+                       this.$message.success("登录成功");
+                       this.$router.push("/home");
+                     } else
+                     this.$message.error(response.data.data.message);
                     
-                 })
+                 }.bind(this))
             
           } else {
             console.log('error submit!!');

@@ -5,11 +5,11 @@ module.exports = {
     open: true,
     port: 8080,
     proxy: {
-      '/api': {
+      '/system': {
         target: 'http://localhost:8089',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '^/system': '/system'  //这里/system必须写，否则cookie的path不对
         }
       }
     }

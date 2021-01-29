@@ -16,10 +16,10 @@ import javax.servlet.http.HttpSession;
  * @Version
  */
 @RestController
+@RequestMapping("res")
 public class ResourceController {
 
-   @RequestMapping(value="/r1")
-   @PreAuthorize("hasAuthority('p1')")
+   @RequestMapping(value="/test")
     public String r1(HttpSession session) {
        System.out.println(session.getId());
        return getName()+"访问资源1,我是拥有p1权限才能访问的资源";
@@ -42,6 +42,7 @@ public class ResourceController {
        if (principle == null)
            userName="匿名用户";
        else if (principle instanceof UserDetails){
+           System.out.println(((UserDetails) principle).getAuthorities());
            return ((UserDetails) principle).getUsername();
        }
        return userName;

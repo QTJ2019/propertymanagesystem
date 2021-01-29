@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version
  */
 @RestController
-@RequestMapping("logout")
+@RequestMapping()
 public class LogoutController {
 
-    @RequestMapping("success")
+    @RequestMapping("/logout?success")
     public Result success(){
         Result result = Result.ok();
         result.setMessage("退出成功");

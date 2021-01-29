@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jian.propertymanagesystem.mapper.MenuDao">
+    <resultMap id="menuMap" type="com.jian.propertymanagesystem.entity.Menu">
+        <id property="menuId" column="father_menu_id"/>
+        <result property="menuName" column="father_menu_name"/>
+        <collection property="children" column="menuId" ofType="com.jian.propertymanagesystem.entity.Menu">
+            <id column="child_menu_id" property="menuId"/>
+            <result column="child_menu_name" property="menuName"/>
+            <result column="child_path" property="path"/>
+        </collection>
+    </resultMap>
+    <select id="queryMenuList" resultMap="menuMap">
+SELECT
+	a.menu_id as father_menu_id,
+	a.menu_name as father_menu_name,
+	b.menu_id as child_menu_id,
+	b.menu_name as child_menu_name,
+    b.path as child_path
+FROM
+	`t_menu` a
+	JOIN `t_menu` b ON a.menu_id = b.father_menu_id
+WHERE
+	a.permission_id IN  ( SELECT id FROM `t_permission` WHERE CODE IN
+	<foreach collection="auths" index = "index" item="each" open="(" separator="," close=")">
+        #{each}
+    </foreach>
+
+	)
+	and b.permission_id in ( SELECT id FROM `t_permission` WHERE CODE IN <foreach collection="auths" index = "index" item="each" open="(" separator="," close=")">
+        #{each}
+    </foreach>  )
+ORDER BY
+	a.menu_name;
+    </select>
+
+</mapper>
