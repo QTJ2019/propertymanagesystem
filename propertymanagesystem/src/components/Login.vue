@@ -111,7 +111,7 @@ export default {
                        this.$message.success("登录成功");
                        this.$router.push("/home");
                      } else
-                     this.$message.error(response.data.data.message);
+                     this.$message.error(response.data.message);
                     
                  }.bind(this))
             

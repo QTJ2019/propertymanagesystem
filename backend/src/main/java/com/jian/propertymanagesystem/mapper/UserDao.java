@@ -13,5 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Component
 public interface UserDao  extends BaseMapper<User> {
-    User getUserByUserName(String name);
+
+
 }

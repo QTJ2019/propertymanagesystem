@@ -44,6 +44,7 @@ public class ResourceController {
        else if (principle instanceof UserDetails){
            System.out.println(((UserDetails) principle).getAuthorities());
            return ((UserDetails) principle).getUsername();
+
        }
        return userName;
    }

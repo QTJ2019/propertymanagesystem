@@ -44,7 +44,7 @@ public class WebSecurityConifg extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()//配置路径拦截
-                 .antMatchers("/","/home").permitAll()
+                 .antMatchers("/","/home","/baseinformationadmin/**").permitAll()
                  //.anyRequest().authenticated()//所有的请求必须认证通过
                  .and()
                 .formLogin() //对表单认证相关的配置

@@ -1,8 +1,11 @@
 package com.jian.propertymanagesystem.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @Author: qtj
@@ -16,4 +19,6 @@ public class User {
     private  String account;
     private String password;
     private String phone;
+    @TableField("gmt_modified")
+    private Date  modified;
 }
