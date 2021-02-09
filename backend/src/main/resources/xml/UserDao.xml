@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jian.propertymanagesystem.mapper.UserDao">
+    <select id="queryUsersByHouseId" resultType="com.jian.propertymanagesystem.entity.User">
+        select b.account,b.phone
+from `t_house_user` a left join `t_user` b on a.phone = b.phone and cancel_flag=0
+where a.house_id = #{houseId};
+    </select>
 
+    <select id="getUserHouse" resultType="com.jian.propertymanagesystem.dto.UserHouse">
+        select a.account,a.phone,CONCAT(unit,"单元",building,"栋",floor,"层",room,"室") as address
+FROM (`t_user` a left JOIN `t_house_user` b on a.phone = b.phone) left join `t_house` c on  b.house_id = c.id
+        <where>
+            a.role_id = 2
+            <if test="phone!=null and phone !=''">
+                and a.phone like concat('%',#{phone},'%')
+            </if>
+        </where>
 
+    </select>
 </mapper>

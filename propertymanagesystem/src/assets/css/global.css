@@ -9,3 +9,12 @@ html, body,#app {
     margin-bottom: 15px;
     font-size: 12px;
 }
+
+.el-card {
+    /* !important可以让设置的样式优先级更高 */
+    box-shadow: 0 1 1 rgba(0, 0,0, 0.15) !important;
+}
+
+.el-pagination {
+    margin-top: 15px;
+}

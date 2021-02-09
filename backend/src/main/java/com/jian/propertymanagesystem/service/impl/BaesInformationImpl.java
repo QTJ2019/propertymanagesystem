@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Author: qtj
  * @Date: 2021/1/29 11:26
@@ -34,5 +36,10 @@ public class BaesInformationImpl implements BaseInformationService {
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("phone",phone);
         return userDao.update(user, updateWrapper);
+    }
+
+    @Override
+    public List<User> getUsersByHouseId(Integer houseId) {
+        return userDao.queryUsersByHouseId(houseId);
     }
 }

@@ -7,6 +7,9 @@ import Test from '../components/Test.vue'
 import Home from '../components/Home.vue'
 import Welcome from '../components/Welcome.vue'
 import UserInformation from '../components/baseinformation/UserInformation.vue'
+import HouseInformation from '../components/baseinformation/HouseInformation.vue'
+import UserHouseInformation from '../components/baseinformation/UserHouseInformation.vue'
+import ComplaintService from '../components/complaintandadvise/ComplaintService.vue'
 
  Vue.use(VueRouter)  //安装插件 
   //配置映射关系
@@ -46,6 +49,27 @@ const routes: Array<RouteConfig> = [
         component: UserInformation,
         meta: {
           title: "个人信息维护"
+        }
+      },
+      {
+        path:"/houseinformation",
+        component: HouseInformation,
+        meta: {
+          title: "房屋信息维护"
+        }
+      },
+      {
+        path:"/userhouseinformation",
+        component: UserHouseInformation,
+        meta: {
+          title: "居民信息查询"
+        }
+      },
+      {
+        path:"/complaintservice",
+        component: ComplaintService,
+        meta: {
+          title: "投诉服务"
         }
       }
     ]

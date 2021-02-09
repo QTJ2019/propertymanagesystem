@@ -1,11 +1,15 @@
 package com.jian.propertymanagesystem.controller.baseinformationadmin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jian.propertymanagesystem.dto.UserHouse;
 import com.jian.propertymanagesystem.entity.User;
 import com.jian.propertymanagesystem.result.Result;
 import com.jian.propertymanagesystem.service.BaseInformationService;
+import com.jian.propertymanagesystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +33,8 @@ import java.util.Map;
 public class UserInformationController {
     @Autowired
     BaseInformationService baseInformationService;
+    @Autowired
+    UserService userService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -84,6 +91,53 @@ public class UserInformationController {
         }
         result = Result.ok();
         result.setMessage("修改成功，请重新登录");
+        return result;
+    }
+
+    @RequestMapping("/getuserhouse")
+    public Result getUserHouse(String phone,Integer currentPage, Integer size){
+        Result result = Result.error();
+        Map<String,Object> data = new HashMap<>();
+        IPage<UserHouse> userHouses = null;
+        if (currentPage == null || currentPage <= 0){
+            currentPage = 1;
+        }
+        if (size == null || size <= 0){
+            size = 10;
+        }
+        Page<UserHouse> page = new Page<>(currentPage,size);
+        try {
+            userHouses = userService.getUserHouse(phone,page);
+        } catch (RuntimeException e) {
+            result.setMessage("查询失败");
+            return result;
+        }
+        result = Result.ok();
+        data.put("userHouses",userHouses.getRecords());
+        data.put("total",userHouses.getTotal());
+        result.setData(data);
+        return result;
+    }
+
+
+    @RequestMapping("/getusersbyhouseid")
+    private Result getUsersByHouseId(Integer houseId){
+        Result result = Result.error();
+        Map<String,Object> data = new HashMap<>();
+        List<User> users = null;
+        if (houseId == null) {
+            result.setMessage("缺乏查询参数");
+            return result;
+        }
+        try {
+            users = baseInformationService.getUsersByHouseId(houseId);
+        } catch (RuntimeException e) {
+            result.setMessage("读取用户信息错误");
+            return result;
+        }
+        data.put("users",users);
+        result = Result.ok();
+        result.setData(data);
         return result;
     }
 }

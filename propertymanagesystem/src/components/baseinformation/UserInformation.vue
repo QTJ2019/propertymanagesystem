@@ -9,7 +9,7 @@
 </el-breadcrumb>
 
 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-  <el-form-item label="账号" >
+  <el-form-item label="用户名" >
     <el-input v-model="ruleForm.account" style="width:40%;" maxlength=19></el-input>
   </el-form-item>
   <el-form-item label="手机号">

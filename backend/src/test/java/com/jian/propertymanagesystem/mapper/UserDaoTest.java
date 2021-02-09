@@ -1,12 +1,15 @@
 package com.jian.propertymanagesystem.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jian.propertymanagesystem.dto.UserHouse;
 import com.jian.propertymanagesystem.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 /**
  * @Author: qtj
@@ -25,5 +28,16 @@ public class UserDaoTest {
         queryWrapper.eq("phone","15521072883");
         User user = userDao.selectOne(queryWrapper);
         System.out.println(user.getPassword());
+    }
+
+    @Test
+    public void queryUsersByHouseIdTest(){
+        List<User> users = userDao.queryUsersByHouseId(1);
+        System.out.println(users.size());
+    }
+
+    @Test
+    public void getUserHouse(){
+
     }
 }

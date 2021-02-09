@@ -57,7 +57,7 @@
       <!-- 表格都在这里输出-->
       <el-main>
         <!-- 显示内容的表格 -->
-        主题区域
+        
         <router-view></router-view>
       </el-main>
     </el-container>

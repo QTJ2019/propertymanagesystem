@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jian.propertymanagesystem.mapper.HouseDao">
+    <select id="queryHouse" resultType="com.jian.propertymanagesystem.entity.House">
+SELECT
+	a.id,
+	a.unit,
+	a.building,
+	a.floor,
+	a.room,
+	GROUP_CONCAT(
+	CONCAT_WS( '_', c.account, c.phone )) AS OWNER
+FROM
+	(`t_house` a
+	left  JOIN `t_house_user` b ON a.id = house_id ) left  JOIN `t_user` c
+	on b.phone = c.phone
+GROUP BY
+	a.id,
+	a.unit,
+	a.building,
+	a.floor,
+	a.room
+    </select>
+
+</mapper>
