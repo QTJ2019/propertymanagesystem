@@ -12,12 +12,15 @@
   </el-form-item>
   <el-form-item>
       <el-upload
-  action="https://jsonplaceholder.typicode.com/posts/"
+  action="none"
+  :auto-upload="false"
   list-type="picture-card"
+  accept=".jpg"
   :limit="3"
   :on-exceed="handleExceed"
   :on-preview="handlePictureCardPreview"
-  :on-remove="handleRemove">
+  :on-remove="handleRemove"
+  :on-change="imgChange">
   <i class="el-icon-plus"></i>
 </el-upload>
 <el-dialog :visible.sync="dialogVisible">
@@ -26,7 +29,7 @@
   </el-form-item>
   
   <el-form-item class="buttonForm" style="width:39%;">
-    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+    <el-button type="primary" @click="submit">提交</el-button>
   </el-form-item>
 </el-form>
   </div>
@@ -36,17 +39,20 @@
 
 export default {
   name: 'ComplaintService',
+  created(){
+    this.getUserInformation();
+  },
   data() {
       return {
-      ruleForm: {
+        ruleForm:{
         account:'',
         phone:'',
-        complaintContext:''
-        } ,
+        complaintContext:'',
+        upLoadImgList:[]
+        },
         dialogVisible: false,
         dialogImageUrl:""
       }
-      
   },
   methods: {
       test: function(){
@@ -74,19 +80,54 @@ export default {
                         }
                     });
       },
+      // 上传的图片数量超过限制时，调用的函数
       handleExceed(){
         this.$message.error("最多上传3张图片")
       },
       handleRemove(file, fileList) {
         console.log(file, fileList);
+        this.ruleForm.upLoadImgList = [];
+        for(let j =0;j< fileList.length;j++){
+          this.ruleForm.upLoadImgList[j] = fileList[j].raw;
+        }
+        console.log("remove");
+        console.log(this.ruleForm.upLoadImgList);
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
         console.log(file.url);
         this.dialogVisible = true;
+      },
+      imgChange(file, fileList) {
+        this.ruleForm.upLoadImgList.push(file.raw);
+        console.log("imgChange!")
+        console.log(this.ruleForm.upLoadImgList);
+        console.log(fileList);
+      },
+      submit(){
+          const  fd = new FormData();
+          fd.append("phone",this.ruleForm.phone);
+          fd.append("complaintContext",this.ruleForm.complaintContext);
+          for(let j=0;j<this.ruleForm.upLoadImgList.length;j++){
+            fd.append("upLoadImgList",this.ruleForm.upLoadImgList[j]);
+          }
+          console.log(fd);
+          this.$http({
+            url: "/system/lifeservice/addcomplaint",
+            method: "post",
+            data:fd,
+            header: {
+              "Content-Type":"multipart/form-data"
+            }
+          }).then((res) =>{
+             if(res.data.success){
+               this.$message.success("提交投诉成功");
+             }else {
+               this.$message.error(res.data.message);
+             }
+          });
       }
   }
-
 }
 </script>
 

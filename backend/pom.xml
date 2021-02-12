@@ -21,6 +21,12 @@
     </properties>
 
     <dependencies>
+        <!--文件上传解析器-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
         <!--json-->
         <dependency>
             <groupId>com.alibaba</groupId>
