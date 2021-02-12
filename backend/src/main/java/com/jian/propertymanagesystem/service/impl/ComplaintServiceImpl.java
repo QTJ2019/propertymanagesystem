@@ -1,6 +1,9 @@
 package com.jian.propertymanagesystem.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jian.propertymanagesystem.entity.Complaint;
 import com.jian.propertymanagesystem.entity.ComplaintImg;
 import com.jian.propertymanagesystem.mapper.ComplaintDao;
@@ -80,10 +83,18 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public IPage<Complaint> queryAllRecords() {
-
-        return 0;
+    public IPage<Complaint> queryAllRecords(Page<Complaint> page) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.orderByAsc("state","id");
+        return complaintDao.selectPage(page,queryWrapper);
     }
 
-
+    @Override
+    public int updateState(Integer complaintId,Integer handlerId) {
+        UpdateWrapper<Complaint> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id",complaintId);
+        updateWrapper.set("state",1);
+        updateWrapper.set("handler_id",handlerId);
+        return complaintDao.update(null,updateWrapper);
+    }
 }

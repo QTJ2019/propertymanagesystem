@@ -18,4 +18,6 @@ public interface ComplaintService {
     int insertComplaintRecord(Complaint complaint, List<MultipartFile> complaintImgs)throws IOException;
 
     IPage<Complaint> queryAllRecords(Page<Complaint> page);
+
+    int updateState(Integer complaintId,Integer handlerId);
 }

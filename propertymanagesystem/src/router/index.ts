@@ -10,6 +10,7 @@ import UserInformation from '../components/baseinformation/UserInformation.vue'
 import HouseInformation from '../components/baseinformation/HouseInformation.vue'
 import UserHouseInformation from '../components/baseinformation/UserHouseInformation.vue'
 import ComplaintService from '../components/complaintandadvise/ComplaintService.vue'
+import ComplaintHandleService from '../components/complaintandadvise/ComplaintHandleService.vue'
 
  Vue.use(VueRouter)  //安装插件 
   //配置映射关系
@@ -70,6 +71,13 @@ const routes: Array<RouteConfig> = [
         component: ComplaintService,
         meta: {
           title: "投诉服务"
+        }
+      },
+      {
+        path:"/complainthandleservice",
+        component: ComplaintHandleService,
+        meta: {
+          title: "投诉处理"
         }
       }
     ]

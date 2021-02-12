@@ -25,7 +25,6 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public IPage<House> queryHouse(Page<House> page) {
-
         return houseDao.queryHouse(page);
     }
 }
