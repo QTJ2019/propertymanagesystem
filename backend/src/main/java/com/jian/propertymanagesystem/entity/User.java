@@ -19,6 +19,10 @@ public class User {
     private  String account;
     private String password;
     private String phone;
+    private Date gmtCreate;
+    private Integer roleId;
     @TableField("gmt_modified")
     private Date  modified;
+    private Integer state;
+
 }

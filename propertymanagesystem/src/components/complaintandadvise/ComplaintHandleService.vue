@@ -83,66 +83,6 @@
       :total="this.total">
     </el-pagination>
 
-  <el-dialog title="绑定取消" :visible.sync="dialogFormVisible">
-  <el-form>
-      <el-form-item label="已绑定的业主" :label-width="formLabelWidth">
-      <el-input v-model="owners" autocomplete="off" style="width:65%;" disabled></el-input>
-    </el-form-item>
-    <el-form-item label="需取消的业主" :label-width="formLabelWidth">
-      <el-select
-    v-model="form.phones"
-    multiple
-    filterable
-    default-first-option
-    placeholder="请选择"
-    style="float:left;width:65%;">
-    <el-option
-      v-for="item in options"
-      :key="item.phone"
-      :label="item.account"
-      :value="item.phone"
-      >
-      <span style="float: left">{{ item.account }}</span>
-      <span style="float: right; color: #8492a6; font-size: 13px">{{ item.phone }}</span>
-    </el-option>
-  </el-select>
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="deleteOwners()">确 定</el-button>
-  </div>
-</el-dialog>
-<el-dialog title="绑定" :visible.sync="addDialogFormVisible">
-  <el-form>
-      <el-form-item label="已绑定的业主" :label-width="formLabelWidth">
-      <el-input v-model="owners" autocomplete="off" style="width:65%;" disabled></el-input>
-    </el-form-item>
-    <el-form-item label="需增加的业主" :label-width="formLabelWidth">
-      <el-select
-    v-model="form.phones"
-    multiple
-    filterable
-    default-first-option
-    placeholder="请选择"
-    style="float:left;width:65%;">
-    <el-option
-      v-for="item in options"
-      :key="item.phone"
-      :label="item.account"
-      :value="item.phone"
-      >
-      <span style="float: left">{{ item.account }}</span>
-      <span style="float: right; color: #8492a6; font-size: 13px">{{ item.phone }}</span>
-    </el-option>
-  </el-select>
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="addDialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="addOwners()">确 定</el-button>
-  </div>
-</el-dialog>
   </div>
 </template>
 
@@ -166,14 +106,11 @@ export default {
           tableData: [],
         options: [
           ],
-        owners: "",
         form:{
             houseId:"",
              //绑定或取消绑定操作中，选中的owner
             phones:[]
         },
-        dialogFormVisible: false,
-        addDialogFormVisible: false,
         formLabelWidth: '120px'
       }
   },
@@ -200,7 +137,7 @@ export default {
           this.currentPage = newPage;
           this.getComplaintList();
       },
-    //   填充房屋信息
+    //   填充投诉信息
       getComplaintList(){
           const url = "/system/lifeservice/getallcomplaintrecords" +"?currentPage="+this.currentPage+"&size="+this.size;         
           this.$http.get(url)
@@ -216,38 +153,7 @@ export default {
                 
       },
 
-    //   index是表格所选列在tableData中的序号，
-    //   type=0表示绑定，type=1表示取消绑定
-    //   作用：获取某个house的业主
-      getOwners(index,type){
-        /*
-        1、根据index获取房屋id
-        2、房屋id为参数，向后端请求业主列表数据
-        3、将后端返回的数据写到value中
-        */
-    //    const houseId = this.tableData[index].id;
-    //    const url = "/system/baseinformationadmin/getowners"+
-    //                "?houseId="+houseId;
-    //    this.$http.get(url)
-    //              .then((res)=>{
-    //                  if(res.data.success){
-    //                      this.owners = res.data.data.owners;
-    //                  }else {
-    //                      this.$message.error("获取业主信息失败");
-    //                  }
-                     
-    //              });
-        this.owners = this.tableData[index].owner;
-        this.tabaleIndex = index;
-        this.getUser();
-          //显示对话框
-          if(type===0){
-              this.addDialogFormVisible = true;
-          }
-          if(type ===1){
-            this.dialogFormVisible = true;
-          }
-      },
+    
       //获取系统所有的用户
       getUser(){
           const url = "/system/baseinformationadmin/getuserinformation";
@@ -259,43 +165,6 @@ export default {
                             this.$message.error("获取处理者信息失败");
                         }
                     });
-      },
-      //   index是表格所选列在tableData中的序号，增加某个house的业主
-      addOwners(){
-          this.form.houseId = this.tableData[this.tabaleIndex].id+"";
-          const url = "/system/baseinformationadmin/addownersofhouse";
-          console.log(this.form);
-          this.$http.post(url,this.form)
-                    .then((res)=>{
-                        if(res.data.success){
-                            this.$message.success("绑定成功");
-                        }else{
-                            this.$message.error(res.data.message);
-                        }
-                        this.form.phones=[];
-                        this.getComplaintList();
-                    });
-                    
-                    this.addDialogFormVisible = false;
-      },
-       //   index是表格所选列在tableData中的序号，减去某个house的业主
-      deleteOwners(){
-          this.form.houseId = this.tableData[this.tabaleIndex].id+"";
-          const url = "/system/baseinformationadmin/deletebyhouseidandphones";
-           console.log(this.form);
-          this.$http.post(url,this.form)
-                    .then((res)=>{
-                        if(res.data.success){
-                            this.$message.success("操作成功");
-                        }else{
-                            this.$message.error(res.data.message);
-                        }
-                      this.form.phones = [];  
-                      this.getComplaintList();
-                    });
-           //清空选择框中的内容
-           
-            this.dialogFormVisible = false;
       },
       confirmComplaint(complaintId){
           const url = "/system/lifeservice/confirmcomplaint?"+"complaintId="+complaintId+"&handlerId="+this.handlerId;

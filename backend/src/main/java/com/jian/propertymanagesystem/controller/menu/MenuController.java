@@ -25,6 +25,10 @@ public class MenuController {
     @Autowired
     MenuService menuService;
 
+    /**
+     * 会根据用户的权限来获取菜单项
+     * @return
+     */
     @RequestMapping("/getmenulist")
     private Result getMenuList(){
         Result result = Result.ok();

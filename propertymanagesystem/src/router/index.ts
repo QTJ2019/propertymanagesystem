@@ -11,7 +11,8 @@ import HouseInformation from '../components/baseinformation/HouseInformation.vue
 import UserHouseInformation from '../components/baseinformation/UserHouseInformation.vue'
 import ComplaintService from '../components/complaintandadvise/ComplaintService.vue'
 import ComplaintHandleService from '../components/complaintandadvise/ComplaintHandleService.vue'
-
+import FeeMaintain from '../components/feemanagement/FeeMaintain.vue'
+import ManagerMaintain from '../components/systemmanager/ManagerMaintain.vue'
  Vue.use(VueRouter)  //安装插件 
   //配置映射关系
 const routes: Array<RouteConfig> = [
@@ -78,6 +79,20 @@ const routes: Array<RouteConfig> = [
         component: ComplaintHandleService,
         meta: {
           title: "投诉处理"
+        }
+      },
+      {
+        path:"/feemaintain",
+        component: FeeMaintain,
+        meta: {
+          title: "物业费维护"
+        }
+      },
+      {
+        path:"/managermaintain",
+        component: ManagerMaintain,
+        meta: {
+          title: "管理人员维护"
         }
       }
     ]

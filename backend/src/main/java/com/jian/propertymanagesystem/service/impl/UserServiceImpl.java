@@ -3,6 +3,7 @@ package com.jian.propertymanagesystem.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jian.propertymanagesystem.dto.UserHouse;
 import com.jian.propertymanagesystem.entity.User;
 import com.jian.propertymanagesystem.mapper.UserDao;
@@ -20,7 +21,8 @@ import java.util.List;
  */
 @Service
 @Component
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserService {
+
     @Autowired
     UserDao userDao;
     @Override
@@ -39,5 +41,10 @@ public class UserServiceImpl implements UserService {
     public IPage<UserHouse> getUserHouse(String phone, Page<UserHouse> page) {
 
         return  userDao.getUserHouse(phone,page);
+    }
+
+    @Override
+    public IPage<User> getUsersByPage(Page<User> page, QueryWrapper<User> queryWrapper) {
+        return userDao.selectPage(page, queryWrapper);
     }
 }

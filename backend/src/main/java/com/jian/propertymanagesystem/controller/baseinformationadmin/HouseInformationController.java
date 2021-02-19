@@ -61,6 +61,24 @@ public class HouseInformationController {
         return result;
     }
 
+    @RequestMapping("/getallhouses")
+    public Result getAllHouses(){
+        Result result = Result.error();
+        Map<String,Object> data = new HashMap<>();
+        List<House> houses = null;
+        try {
+             houses = houseService.queryAllHouse();
+        } catch (Exception e) {
+            result.setMessage("数据库查询失败");
+            return result;
+        }
+        data.put("houses",houses);
+        result = Result.ok();
+        result.setData(data);
+        return result;
+
+    }
+
     @RequestMapping("/getowners")
     public Result getOwners(Integer houseId){
         Result result = Result.error();

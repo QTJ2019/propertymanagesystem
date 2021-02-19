@@ -1,5 +1,6 @@
 package com.jian.propertymanagesystem.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jian.propertymanagesystem.entity.House;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Component
-public interface HouseDao  {
+public interface HouseDao extends BaseMapper<House> {
     IPage<House> queryHouse(Page<?> page);
 
 

@@ -30,7 +30,8 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("phone",s);
         User user = userDao.selectOne(queryWrapper);
-        if (user == null)
+        //如果是禁用则返回null
+        if (user == null || user.getState() == null || user.getState() == 0)
             return  null; //返回空Spring Security会帮我们抛出错误
         List<String> permissions = permissionDao.findPermissionByUserId(user.getId());
         String[] perArray = new String[permissions.size()];
