@@ -59,6 +59,7 @@
             :on-change="uploadFeeExcel"
             :limit="1"
             action="none"
+            accept=".xlsx, .xls"
             :auto-upload="false"
           >
             <el-button size="small" type="primary">点击上传</el-button>
@@ -263,12 +264,12 @@ export default {
     handleSizeChange(newSize) {
       console.log(newSize);
       this.searchForm.size = newSize;
-      this.getComplaintList();
+      this.getFeeList();
     },
     handleCurrentChange(newPage) {
       console.log(newPage);
       this.searchForm.currentPage = newPage;
-      this.getComplaintList();
+      this.getFeeList();
     },
     uploadFeeExcel(files, fileList) {
       if (files.length + fileList.length > 1) {

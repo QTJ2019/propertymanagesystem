@@ -82,12 +82,12 @@ export default {
       handleSizeChange(newSize){
           console.log(newSize);
           this.size = newSize;
-          this.getHouseList();
+          this.getUserHouseList();
       },
       handleCurrentChange(newPage){
           console.log(newPage);
           this.currentPage = newPage;
-          this.getHouseList();
+          this.getUserHouseList();
       },
     //   填充房屋信息
       getUserHouseList(){

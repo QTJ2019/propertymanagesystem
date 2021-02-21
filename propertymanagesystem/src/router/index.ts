@@ -13,6 +13,8 @@ import ComplaintService from '../components/complaintandadvise/ComplaintService.
 import ComplaintHandleService from '../components/complaintandadvise/ComplaintHandleService.vue'
 import FeeMaintain from '../components/feemanagement/FeeMaintain.vue'
 import ManagerMaintain from '../components/systemmanager/ManagerMaintain.vue'
+import GateRecordMaintain from '../components/securitymanagement/GateRecordMaintain.vue'
+
  Vue.use(VueRouter)  //安装插件 
   //配置映射关系
 const routes: Array<RouteConfig> = [
@@ -93,6 +95,13 @@ const routes: Array<RouteConfig> = [
         component: ManagerMaintain,
         meta: {
           title: "管理人员维护"
+        }
+      },
+      {
+        path:"/gaterecordmaintain",
+        component: GateRecordMaintain,
+        meta: {
+          title: "门岗记录查询"
         }
       }
     ]
