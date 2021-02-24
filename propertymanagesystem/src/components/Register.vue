@@ -19,40 +19,33 @@
         class="demo-ruleForm"
       >
         <el-form-item
-          prop="email"
+          prop="phone"
           
-          :rules="[
-            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-            {
-              type: 'email',
-              message: '请输入正确的邮箱地址',
-              trigger: ['blur', 'change'],
-            },
-          ]"
+          
         >
           <el-input 
           autocomplete="off"
-          v-model="ruleForm.email"
-          placeholder="邮箱" >
+          v-model="ruleForm.phone"
+          placeholder="手机号" >
           </el-input>
         </el-form-item>
 
-        <el-form-item >
+        <!-- <el-form-item >
           <el-input 
           v-model="ruleForm.code"
           autocomplete="off"
           placeholder="验证码"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item  prop="account">
           <el-input 
           v-model="ruleForm.account"
           autocomplete="off"
           placeholder="账号"></el-input>
         </el-form-item>
-        <el-form-item  prop="pass">
+        <el-form-item  prop="password">
           <el-input
             type="password"
-            v-model="ruleForm.pass"
+            v-model="ruleForm.password"
             autocomplete="off"
             placeholder="密码"
           ></el-input>
@@ -86,7 +79,7 @@ export default {
       if (!value) {
         return callback(new Error("账号不能为空"));
       }
-
+      callback();
       // setTimeout(() => {
       //   if (!Number.isInteger(value)) {
       //     callback(new Error('请输入数字值'));
@@ -99,7 +92,16 @@ export default {
       //   }
       // }, 1000);
     };
-    const validatePass = (rule, value, callback) => {
+    const validatePhone = (rule,value,callback) => {
+      if(value === ""){
+        callback(new Error("请输入手机号"));
+      }else if(this.ruleForm.phone.length != 11) {
+        callback(new Error("请输入正确的手机号"));
+      } else {
+        callback();
+      }
+    };
+    const validatePassword = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
@@ -112,7 +114,7 @@ export default {
     const validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
+      } else if (value !== this.ruleForm.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
@@ -120,28 +122,45 @@ export default {
     };
     return {
       ruleForm: {
-        email: "",
-        code: "",
-        pass: "",
+        phone: "",
+       // code: "",
+        password: "",
         checkPass: "",
         account: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        phone:[{validator:validatePhone,trigger:"blur"}],
+        password: [{ validator: validatePassword, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        account: [{ validator: checkAccount, trigger: "blur" }],
+       account: [{ validator: checkAccount, trigger: "blur" }],
       },
     };
   },
   methods: {
     submitForm(formName) {
+      console.log("niiao");
       this.$refs[formName].validate((valid) => {
-        console.log(this.ruleForm.code);
-        console.log(this.ruleForm.email);
+        console.log(valid);
         if (valid) {
-          alert("submit!");
+          console.log("password:"+this.ruleForm.password);
+          console.log("checkPass:"+ this.ruleForm.checkPass);
+          const publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIiVEXKFYF+/0OAMcvHTiQBGDo7mRiafYpM0wKpmoFUHs3U+rWsfvg+kfsFs+LV1hVOo8fIGxT5cc4/ufB7nnteRnckWCZh0hilt16HDl7r6PYdq2N2WKol/gj0Jgm93E7DybTEzuOQGMQlbg5jLhsI9gwj22lv2kIv7WGvUL9JwIDAQAB";
+         this.ruleForm.password = this.$getRsaCode(this.ruleForm.password,publicKey);
+         this.ruleForm.checkPass = "";
+         const url = "/system/register";
+         this.$http.post(url,this.ruleForm)
+                   .then(res =>{
+                     if(res.data.success){
+                       this.$message.success("注册成功");
+                       this.$router.push("/login");
+                     }else{
+                       this.$message.error(res.data.message);
+                     }
+                   })
+         
         } else {
-          console.log("error submit!!");
+          this.$message.error("注册失败");
+    
           return false;
         }
       });

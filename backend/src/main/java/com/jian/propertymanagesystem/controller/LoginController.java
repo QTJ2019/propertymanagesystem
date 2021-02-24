@@ -1,7 +1,7 @@
 package com.jian.propertymanagesystem.controller;
 
 import com.jian.propertymanagesystem.result.Result;
-import org.springframework.http.HttpStatus;
+import com.jian.propertymanagesystem.util.RSAEncryptUtil;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 /**
  * @Author: qtj
@@ -33,6 +31,7 @@ public class LoginController {
         result.setMessage(userName+"登录成功");
         Map<String,Object> map = new HashMap<>();
         map.put("jsessionid",session.getId());
+        map.put("publicKey", RSAEncryptUtil.PUBLICKEY);
         result.setData(map);
         System.out.println(session.getId());
         return result;

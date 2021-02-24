@@ -5,6 +5,7 @@ import com.jian.propertymanagesystem.entity.User;
 import com.jian.propertymanagesystem.mapper.PermissionDao;
 import com.jian.propertymanagesystem.mapper.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,5 +1,6 @@
 package com.jian.propertymanagesystem.controller.baseinformationadmin;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,9 +11,12 @@ import com.jian.propertymanagesystem.entity.User;
 import com.jian.propertymanagesystem.result.Result;
 import com.jian.propertymanagesystem.service.BaseInformationService;
 import com.jian.propertymanagesystem.service.UserService;
+import com.jian.propertymanagesystem.util.BCryptUtil;
+import com.jian.propertymanagesystem.util.RSAEncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +39,8 @@ public class UserInformationController {
     BaseInformationService baseInformationService;
     @Autowired
     UserService userService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -58,7 +64,7 @@ public class UserInformationController {
 
     @RequestMapping("/updateuserinformation")
     private Result updateUserInformation(@RequestBody String userInfor, Authentication authentication){
-        Result result;
+        Result result = Result.error();
         JsonNode node;
         User user = new User();
         UserDetails principal = (UserDetails) authentication.getPrincipal();
@@ -70,14 +76,28 @@ public class UserInformationController {
             return result;
         }
         String oldPass = node.get("oldPass").asText().toString();
+        //需要写解码
+        try {
+            oldPass = RSAEncryptUtil.decrypt(oldPass);
+        } catch (Exception e) {
+            result.setMessage("解码错误");
+            return result;
+        }
         if (oldPass != null && oldPass!=""){
-            String password = ((UserDetails)principal).getPassword();
-            if(oldPass.equals(password)){
-                result = Result.error();
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("phone",node.get("phone").asText().toString());
+            String password = userService.getOne(queryWrapper).getPassword();
+            if(!passwordEncoder.matches(oldPass,password)){
                 result.setMessage("原密码错误");
                 return result;
             }
-            user.setPassword(node.get("pass").asText().toString());
+            String newPassword = node.get("pass").asText().toString();
+            try {
+                user.setPassword(BCryptUtil.generate(RSAEncryptUtil.decrypt(newPassword)));
+            } catch (Exception e) {
+                result.setMessage("解码错误");
+                return result;
+            }
         }
         user.setModified(new Date());
         user.setAccount(node.get("account").asText().toString());

@@ -16,7 +16,7 @@
     <el-input  v-model="ruleForm.phone" style="width:40%;" disabled></el-input>
   </el-form-item>
   <el-form-item label="旧密码" prop="oldPass">
-    <el-input type="password" v-model.number="ruleForm.oldPass" style="width:40%;"></el-input>
+    <el-input type="password" v-model="ruleForm.oldPass" style="width:40%;"></el-input>
   </el-form-item>
   <el-form-item label="密码" prop="pass">
     <el-input type="password" v-model="ruleForm.pass" autocomplete="off" style="width:40%;"></el-input>
@@ -60,7 +60,7 @@ export default {
         ruleForm: {
         account:'',
         phone:'',
-        oldPass:'',
+        oldPass: '',
         pass: '',
         checkPass: '',
         },
@@ -78,6 +78,12 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+               const publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIiVEXKFYF+/0OAMcvHTiQBGDo7mRiafYpM0wKpmoFUHs3U+rWsfvg+kfsFs+LV1hVOo8fIGxT5cc4/ufB7nnteRnckWCZh0hilt16HDl7r6PYdq2N2WKol/gj0Jgm93E7DybTEzuOQGMQlbg5jLhsI9gwj22lv2kIv7WGvUL9JwIDAQAB";
+              console.log(this.ruleForm.oldPass);
+              this.ruleForm.oldPass = this.$getRsaCode(this.ruleForm.oldPass,publicKey);
+              this.ruleForm.pass = this.$getRsaCode(this.ruleForm.pass,publicKey);
+              console.log(this.ruleForm.oldPass);
+              this.ruleForm.checkPass = "";
               const url = "/system/baseinformationadmin/updateuserinformation";
               this.$http.post(url,this.ruleForm)
                         .then((res)=>{

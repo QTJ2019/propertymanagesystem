@@ -21,7 +21,7 @@
           <el-input
             v-model="ruleForm.user"
             autocomplete="off"
-            placeholder="用户名"
+            placeholder="手机号"
           ></el-input>
         </el-form-item>
         <el-form-item  prop="pass">
@@ -101,13 +101,17 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            const url = "/system/process?username="+this.ruleForm.user+"&password="+this.ruleForm.pass;
+            const publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIiVEXKFYF+/0OAMcvHTiQBGDo7mRiafYpM0wKpmoFUHs3U+rWsfvg+kfsFs+LV1hVOo8fIGxT5cc4/ufB7nnteRnckWCZh0hilt16HDl7r6PYdq2N2WKol/gj0Jgm93E7DybTEzuOQGMQlbg5jLhsI9gwj22lv2kIv7WGvUL9JwIDAQAB";
+            const encodePassword = this.$getRsaCode(this.ruleForm.pass,publicKey);
+            const url = "/system/process?username="+this.ruleForm.user+"&password="+encodePassword;
             this.$http.post(url)
                  .then(function(response){
                      if(response.data.success){
                        console.log(response);
                        const jsessionid = response.data.data.jsessionid;
+                       const publicKey = response.data.data.publicKey;
                        window.sessionStorage.setItem('jsessionid',jsessionid);
+                       window.sessionStorage.setItem('publicKey',publicKey);
                        this.$message.success("登录成功");
                        this.$router.push("/home");
                      } else
