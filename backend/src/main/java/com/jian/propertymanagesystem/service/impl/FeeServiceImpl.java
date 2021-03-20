@@ -74,4 +74,22 @@ public class FeeServiceImpl extends ServiceImpl<FeeDao,Fee> implements FeeServic
         }
         return feeDao.selectPage(page,queryWrapper);
     }
+
+    @Override
+    public IPage<Fee> queryUserFee( FeeForm feeForm) {
+        Page<Fee> page = new Page<>();
+        int currentPage = 1;
+        int size = 10;
+        if(feeForm != null){
+            if (feeForm.getCurrentPage() != null && feeForm.getCurrentPage()>0){
+                currentPage = feeForm.getCurrentPage();
+            }
+            if (feeForm.getSize() != null && feeForm.getSize()>0){
+                size = feeForm.getSize();
+            }
+        }
+        page.setCurrent(currentPage);
+        page.setSize(size);
+        return feeDao.queryUserFee(page, feeForm);
+    }
 }

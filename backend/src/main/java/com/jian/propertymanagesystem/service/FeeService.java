@@ -18,4 +18,6 @@ public interface FeeService extends IService<Fee> {
     int insertFees(List<Fee> feeList);
 
     IPage<Fee> queryLists (Page<Fee> page, FeeForm feeForm) throws ParseException;
+
+    IPage<Fee> queryUserFee ( FeeForm feeForm);
 }

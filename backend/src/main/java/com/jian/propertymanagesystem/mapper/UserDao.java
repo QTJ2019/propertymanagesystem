@@ -25,4 +25,6 @@ public interface UserDao  extends BaseMapper<User> {
 
     public IPage<UserHouse> getUserHouse(@Param("phone") String phone, Page<UserHouse> page);
 
+    public List<String> getOneUserHouse(@Param("phone") String phone);
+
 }

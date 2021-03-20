@@ -7,6 +7,7 @@ import com.jian.propertymanagesystem.entity.House;
 import com.jian.propertymanagesystem.result.Result;
 import com.jian.propertymanagesystem.service.ComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,11 +34,13 @@ public class ComplaintController {
         Result result = Result.error();
         Complaint complaint = new Complaint();
         String userPhone = request.getParameter("phone");
+        System.out.println("userPhone:"+userPhone);
         if (userPhone == null){
             result.setMessage("缺少手机号");
             return  result;
         }
         String complaintContext = request.getParameter("complaintContext");
+        System.out.println("complaintContext:"+complaintContext);
         if (complaintContext == null){
             result.setMessage("缺少投诉内容");
             return result;
@@ -54,8 +57,9 @@ public class ComplaintController {
         return Result.ok();
     }
 
-    @RequestMapping("/getallcomplaintrecords")
-    public Result getAllComplaintRecords(Integer currentPage,Integer size){
+    @PreAuthorize("hasAuthority('p1')")
+    @RequestMapping("/getcomplaintrecords")
+    public Result getAllComplaintRecords(Integer currentPage,Integer size,String phone){
         if (currentPage == null || currentPage<=0) currentPage=1;
         if (size == null || size<=0) size=10;
         Page<Complaint> page = new Page<>(currentPage,size);
@@ -63,7 +67,35 @@ public class ComplaintController {
         Map<String,Object> data = new HashMap<>();
         Result result = Result.error();
         try {
-            complaints = complaintService.queryAllRecords(page);
+            complaints = complaintService.queryAllRecords(page,phone);
+        } catch (RuntimeException e) {
+            result.setMessage("读取房屋信息失败");
+            return result;
+        }
+        data.put("complaints",complaints.getRecords());
+        data.put("total",complaints.getTotal());
+        result = Result.ok();
+        result.setData(data);
+        return result;
+    }
+
+    /**
+     * 获取某个用户的投诉记录，业主查询投诉记录时,调用的接口
+     * @param currentPage
+     * @param size
+     * @param phone
+     * @return
+     */
+    @RequestMapping("/getusercomplaintrecords")
+    public Result getUserComplaintRecords(Integer currentPage,Integer size,String phone){
+        if (currentPage == null || currentPage<=0) currentPage=1;
+        if (size == null || size<=0) size=10;
+        Page<Complaint> page = new Page<>(currentPage,size);
+        IPage<Complaint> complaints = null;
+        Map<String,Object> data = new HashMap<>();
+        Result result = Result.error();
+        try {
+            complaints = complaintService.queryUserRecords(page,phone);
         } catch (RuntimeException e) {
             result.setMessage("读取房屋信息失败");
             return result;

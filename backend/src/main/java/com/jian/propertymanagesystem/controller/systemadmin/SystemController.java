@@ -7,6 +7,7 @@ import com.jian.propertymanagesystem.entity.User;
 import com.jian.propertymanagesystem.result.Result;
 import com.jian.propertymanagesystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -29,6 +30,7 @@ public class SystemController {
      * @param size
      * @return
      */
+    @PreAuthorize("hasAuthority('p4')")
     @GetMapping("/getmanagerusers")
     public Result getManagerUsers(Integer currentPage,Integer size,String phone){
         Result result = Result.error();
@@ -60,6 +62,7 @@ public class SystemController {
         return  result;
     }
 
+    @PreAuthorize("hasAuthority('p4')")
     @PostMapping("/addmanageruser")
     public Result addManagerUser(@RequestBody User managerUser){
         Result result = Result.error();
@@ -76,6 +79,7 @@ public class SystemController {
         return result;
     }
 
+    @PreAuthorize("hasAuthority('p4')")
     @PostMapping("/updatemanageruser")
     public Result updateManagerUser(@RequestBody User managerUser){
         Result result = Result.error();

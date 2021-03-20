@@ -14,6 +14,22 @@ FROM
 	(`t_house` a
 	left  JOIN `t_house_user` b ON a.id = house_id ) left  JOIN `t_user` c
 	on b.phone = c.phone
+	<where>
+		<if test="houseForm != null">
+		<if test="  houseForm.unit != null and houseForm.unit !='' ">
+			and a.unit = #{houseForm.unit}
+		</if>
+		<if test=" houseForm.building != null and houseForm.building !='' ">
+			and a.building = #{houseForm.building}
+		</if>
+		<if test="houseForm.floor != null and houseForm.floor !='' ">
+			and a.floor = #{houseForm.floor}
+		</if>
+		<if test="houseForm.room != null and houseForm.room !='' ">
+			and a.room = #{houseForm.room}
+		</if>
+	</if>
+	</where>
 GROUP BY
 	a.id,
 	a.unit,

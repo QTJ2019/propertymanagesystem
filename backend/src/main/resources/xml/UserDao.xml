@@ -18,4 +18,15 @@ FROM (`t_user` a left JOIN `t_house_user` b on a.phone = b.phone) left join `t_h
         </where>
 
     </select>
+
+    <select id="getOneUserHouse" resultType="java.lang.String">
+        SELECT
+	CONCAT( unit, "单元", building, "栋", floor, "层", room, "室" ) AS address
+FROM
+	`t_house_user` a
+	LEFT JOIN `t_house` b ON house_id = id
+WHERE
+	phone = #{phone}
+
+    </select>
 </mapper>

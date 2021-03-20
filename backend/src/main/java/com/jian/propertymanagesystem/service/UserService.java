@@ -22,4 +22,6 @@ public interface UserService extends IService<User> {
     IPage<UserHouse> getUserHouse(String phone, Page<UserHouse> page);
 
     IPage<User>  getUsersByPage(Page<User> page, QueryWrapper<User> queryWrapper);
+
+    List<String> getOneUserHouse(String phone);
 }

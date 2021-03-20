@@ -20,6 +20,7 @@ import java.util.List;
  * @Version
  */
 @Service
+@Primary
 public class SpringDataUserDetailsService implements UserDetailsService {
     @Autowired
     UserDao userDao;

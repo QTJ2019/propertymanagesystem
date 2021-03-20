@@ -14,7 +14,7 @@
           <el-input
             v-model="searchForm.houseId"
             placeholder="房屋搜索"
-            style="width: 23%"
+            style="width: 21%"
           >
           </el-input>
           <el-select
@@ -22,7 +22,7 @@
             filterable
             default-first-option
             placeholder="费用类型搜索"
-            style="float: left; width: 23%"
+            style="float: left; width: 21%"
           >
             <el-option
               v-for="item in typeOptions"

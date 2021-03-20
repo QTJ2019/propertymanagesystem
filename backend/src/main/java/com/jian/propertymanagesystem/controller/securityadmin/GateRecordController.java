@@ -9,6 +9,7 @@ import com.jian.propertymanagesystem.listener.GateRecordListener;
 import com.jian.propertymanagesystem.result.Result;
 import com.jian.propertymanagesystem.service.GateRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @Date: 2021/2/20 16:15
  * @Version
  */
+
 @RestController
 @RequestMapping("/securityadmin")
 public class GateRecordController {
@@ -54,14 +56,14 @@ public class GateRecordController {
         Map<String,Object> data = new HashMap<>();
         IPage<GateRecord> iPage = null;
         if (form != null){
-            if (form.getCunrrentPage() == null || form.getCunrrentPage() <=0){
-                form.setCunrrentPage(1);
+            if (form.getCurrentPage() == null || form.getCurrentPage() <=0){
+                form.setCurrentPage(1);
             }
             if (form.getSize() == null || form.getSize() <= 0){
                 form.setSize(10);
             }
         }
-        page = new Page<>(form.getCunrrentPage(),form.getSize());
+        page = new Page<>(form.getCurrentPage(),form.getSize());
         try {
            iPage  = gateRecordService.queryGateRecordByPage(page,form);
         } catch (Exception e) {
@@ -69,7 +71,7 @@ public class GateRecordController {
             return result;
         }
         data.put("gateRecords",iPage.getRecords());
-        data.put("toal",iPage.getTotal());
+        data.put("total",iPage.getTotal());
         result = Result.ok();
         result.setData(data);
         return result;

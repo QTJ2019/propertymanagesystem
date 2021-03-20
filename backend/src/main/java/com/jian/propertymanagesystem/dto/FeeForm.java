@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class FeeForm {
+    private String phone;
     private Integer houseId;
     private Integer type;
     private Integer currentPage;

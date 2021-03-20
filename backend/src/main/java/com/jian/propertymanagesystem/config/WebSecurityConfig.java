@@ -40,7 +40,7 @@ import java.io.PrintWriter;
 //下面的注解使得SpringMVC集成了Spring Security的web安全支持
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true , securedEnabled = true)  //这里要配置，才能在接口上使用@preAuthorize,@postAuthorize,@Secured
-public class WebSecurityConifg extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     /*
@@ -49,7 +49,6 @@ public class WebSecurityConifg extends WebSecurityConfigurerAdapter {
     @Bean()
     public PasswordEncoder passwordEncoder(){
          return new BCryptPasswordEncoder();
-       // return NoOpPasswordEncoder.getInstance();
     }
 
     @Override
@@ -58,7 +57,7 @@ public class WebSecurityConifg extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()//配置路径拦截
-                 .antMatchers("/","/home","/baseinformationadmin/**","/register").permitAll()
+                 .antMatchers("/","/home","/baseinformationadmin/**","/login","/register").permitAll()
                  //.anyRequest().authenticated()//所有的请求必须认证通过
                  .and()
                 .formLogin() //对表单认证相关的配置

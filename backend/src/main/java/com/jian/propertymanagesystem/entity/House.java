@@ -1,8 +1,14 @@
 package com.jian.propertymanagesystem.entity;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.net.Proxy;
 
 /**
  * @Author: qtj
@@ -12,12 +18,15 @@ import lombok.Data;
 @Data
 @TableName("t_house")
 public class House {
-    private int id;
-    private int unit;
-    private int building;
-    private int floor;
-    private int room;
+    @TableId(type = IdType.AUTO)
+    @ExcelIgnore
+    private Integer id;
+    private Integer unit;
+    private Integer building;
+    private Integer floor;
+    private Integer room;
     @TableField(exist = false)
+    @ExcelIgnore
     private String owner;
 
 }

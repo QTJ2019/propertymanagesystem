@@ -1,5 +1,11 @@
 <template>
   <div id="ComplaintService">
+    <el-breadcrumb separator="/">
+  <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+  <!-- <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item> -->
+  <el-breadcrumb-item>投诉管理</el-breadcrumb-item>
+  <el-breadcrumb-item>发起投诉</el-breadcrumb-item>
+</el-breadcrumb>
       <el-form :model="ruleForm" status-icon  ref="ruleForm" label-width="100px" class="demo-ruleForm">
   <el-form-item label="用户名" >
     <el-input v-model="ruleForm.account" style="width:40%;" maxlength=19 disabled></el-input>

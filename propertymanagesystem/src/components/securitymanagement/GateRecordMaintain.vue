@@ -14,7 +14,7 @@
           <el-input
             v-model="searchForm.gate"
             placeholder="门岗搜索"
-            style="width: 23%"
+            style="width: 20%"
           >
           </el-input>
           <el-select
@@ -22,7 +22,7 @@
             filterable
             default-first-option
             placeholder="出入类型搜索"
-            style="float: left; width: 23%"
+            style="float: left; width: 20%"
           >
             <el-option
               v-for="item in typeOptions"
@@ -70,7 +70,7 @@
 
     <el-table
       :data="tableData"
-      height="320"
+      height="500"
       border
       style="width: 100%; hight: 60%"
     >
@@ -88,11 +88,11 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="this.searchForm.currentPage"
+      :current-page="searchForm.currentPage"
       :page-sizes="[5, 10, 15, 20]"
-      :page-size="this.searchForm.size"
+      :page-size="searchForm.size"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="this.total"
+      :total="total"
     >
     </el-pagination>
    

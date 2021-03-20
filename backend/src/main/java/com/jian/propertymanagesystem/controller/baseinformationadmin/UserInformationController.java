@@ -14,6 +14,7 @@ import com.jian.propertymanagesystem.service.UserService;
 import com.jian.propertymanagesystem.util.BCryptUtil;
 import com.jian.propertymanagesystem.util.RSAEncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -158,6 +158,30 @@ public class UserInformationController {
         data.put("users",users);
         result = Result.ok();
         result.setData(data);
+        return result;
+    }
+
+    @RequestMapping("/getoneuserhouse")
+    public Result getOneUserHouse(String phone){
+        Result result = Result.error();
+        Map<String, Object> data = new HashMap<>();
+        List<String> houseList = null;
+        StringBuilder houses =  new StringBuilder();
+        if (phone != null){
+            try {
+                houseList = userService.getOneUserHouse(phone);
+            } catch (Exception e) {
+                result.setMessage("查询失败");
+                return result;
+            }
+        }
+        for (int i=0;i<houseList.size();i++){
+            houses.append(houseList.get(i)+" ");
+        }
+        data.put("houses", houses.toString());
+        result = Result.ok();
+        result.setData(data);
+        result.setMessage("查询成功");
         return result;
     }
 }

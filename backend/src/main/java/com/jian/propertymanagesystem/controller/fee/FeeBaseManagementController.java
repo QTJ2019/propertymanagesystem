@@ -65,6 +65,28 @@ public class FeeBaseManagementController {
         return result;
     }
 
+    @RequestMapping("/getuserfee")
+    public  Result getUserFee(@RequestBody FeeForm feeForm){
+        Result result = Result.error();
+        Map<String,Object> data = new HashMap<>();
+        IPage<Fee> iPage = null;
+        if (feeForm == null || feeForm.getPhone() == null || feeForm.getPhone() ==""){
+            result.setMessage("缺乏用户手机号");
+            return result;
+        }
+        try {
+            iPage = feeService.queryUserFee(feeForm);
+        } catch (Exception e) {
+            result.setMessage("数据库");
+            return result;
+        }
+        result = Result.ok();
+        data.put("records",iPage.getRecords());
+        data.put("total",iPage.getTotal());
+        result.setData(data);
+        return result;
+    }
+
     @RequestMapping("/addfee")
     public Result addFee(@RequestBody Fee fee){
         Result result = Result.error();

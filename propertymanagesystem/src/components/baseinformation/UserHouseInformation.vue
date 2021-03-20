@@ -12,7 +12,7 @@
  
   <el-row :gutter="20">
   <el-col :span="15">
-    <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
+    <el-input placeholder="手机号查询" v-model="input" class="input-with-select" style="width:35%;">
     <el-button slot="append" icon="el-icon-search" @click="getUserHouseList"></el-button>
   </el-input>
   </el-col>
@@ -21,9 +21,9 @@
 
 <el-table
     :data="tableData"
-    height="320"
+    height="500"
     border
-    style="width: 100%;hight: 60%">
+    style="width: 100%;">
     <!-- 索引列 -->
     <el-table-column type="index" label="序号"></el-table-column>
     <el-table-column
@@ -38,7 +38,7 @@
     </el-table-column>
     <el-table-column
       prop="address"
-      label="地址"
+      label="房屋"
       width="400">
     </el-table-column>
     
@@ -72,6 +72,7 @@ export default {
           currentPage:1,
           size:10,
           total:0,
+          phone:undefined,
           input: '',
           tableData: [],
         owners: "",

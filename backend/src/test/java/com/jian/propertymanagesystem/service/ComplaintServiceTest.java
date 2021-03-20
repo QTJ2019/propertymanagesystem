@@ -23,7 +23,7 @@ public class ComplaintServiceTest {
     @Test
     public void queryAllRecordsTest(){
         Page<Complaint> page = new Page<>(1,10);
-        IPage<Complaint> iPage = complaintService.queryAllRecords(page);
+        IPage<Complaint> iPage = complaintService.queryAllRecords(page,null);
         System.out.println(iPage.getRecords().size());
     }
 

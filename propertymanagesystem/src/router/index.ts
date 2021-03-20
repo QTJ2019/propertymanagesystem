@@ -14,6 +14,8 @@ import ComplaintHandleService from '../components/complaintandadvise/ComplaintHa
 import FeeMaintain from '../components/feemanagement/FeeMaintain.vue'
 import ManagerMaintain from '../components/systemmanager/ManagerMaintain.vue'
 import GateRecordMaintain from '../components/securitymanagement/GateRecordMaintain.vue'
+import ComplaintChecking from '../components/complaintandadvise/ComplaintChecking.vue'
+import FeeChecking from '../components/feemanagement/FeeChecking.vue'
 
  Vue.use(VueRouter)  //安装插件 
   //配置映射关系
@@ -84,10 +86,24 @@ const routes: Array<RouteConfig> = [
         }
       },
       {
+        path:"/complaintchecking",
+        component: ComplaintChecking,
+        meta: {
+          title: "投诉查看"
+        }
+      },
+      {
         path:"/feemaintain",
         component: FeeMaintain,
         meta: {
           title: "物业费维护"
+        }
+      },
+      {
+        path:"/feechecking",
+        component: FeeChecking,
+        meta: {
+          title: "物业费查看"
         }
       },
       {

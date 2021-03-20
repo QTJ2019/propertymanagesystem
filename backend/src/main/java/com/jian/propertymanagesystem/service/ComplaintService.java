@@ -14,10 +14,12 @@ import java.util.List;
  * @Date: 2021/2/11 9:00
  * @Version
  */
-public interface ComplaintService {
+public interface ComplaintService  {
     int insertComplaintRecord(Complaint complaint, List<MultipartFile> complaintImgs)throws IOException;
 
-    IPage<Complaint> queryAllRecords(Page<Complaint> page);
+    IPage<Complaint> queryAllRecords(Page<Complaint> page,String phone);
+
+    IPage<Complaint> queryUserRecords(Page<Complaint> page,String phone);
 
     int updateState(Integer complaintId,Integer handlerId);
 }

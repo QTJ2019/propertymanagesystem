@@ -47,4 +47,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
     public IPage<User> getUsersByPage(Page<User> page, QueryWrapper<User> queryWrapper) {
         return userDao.selectPage(page, queryWrapper);
     }
+
+    @Override
+    public List<String> getOneUserHouse(String phone) {
+        return userDao.getOneUserHouse(phone);
+    }
 }

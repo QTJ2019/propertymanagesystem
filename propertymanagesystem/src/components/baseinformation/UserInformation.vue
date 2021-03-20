@@ -15,6 +15,9 @@
   <el-form-item label="手机号">
     <el-input  v-model="ruleForm.phone" style="width:40%;" disabled></el-input>
   </el-form-item>
+  <el-form-item label="房屋">
+    <el-input  v-model="house" style="width:40%;" ></el-input>
+  </el-form-item>
   <el-form-item label="旧密码" prop="oldPass">
     <el-input type="password" v-model="ruleForm.oldPass" style="width:40%;"></el-input>
   </el-form-item>
@@ -39,6 +42,7 @@ export default {
   created(){
       console.log("created的内部");
       this.getUserInformation();
+      this.getOneUserHouse();
   },
   data() {
     
@@ -57,6 +61,7 @@ export default {
         }
       };
       return {
+        house:"",
         ruleForm: {
         account:'',
         phone:'',
@@ -124,6 +129,20 @@ export default {
                             this.$message.error(response.message);
                         }
                     });
+      },
+      //获取业主用户的房屋信息
+      getOneUserHouse(){
+        const phone = this.ruleForm.phone;
+        const url = "/system/baseinformationadmin/getoneuserhouse?phone=" + phone ;
+        this.$http.get(url)
+                  .then((res)=>{
+                    console.log(res);
+                    if(res.data.success) {
+                        this.house = res.data.data.houses;
+                    }else{
+                      this.$message.error(res.data.message)
+                    }
+                  })
       },
     //   与Home.vue的logout是一样的
       logout(){

@@ -13,7 +13,7 @@ import java.util.Date;
  */
 @Data
 public class GateRecordSearchForm {
-    private Integer cunrrentPage;
+    private Integer currentPage;
     private Integer size;
     private String gate;
     private Integer type;

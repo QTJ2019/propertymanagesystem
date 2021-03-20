@@ -1,11 +1,14 @@
 package com.jian.propertymanagesystem.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.jian.propertymanagesystem.dto.FeeForm;
 import com.jian.propertymanagesystem.entity.Fee;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +38,16 @@ public class FeeServiceTest {
         List<Fee> list = new ArrayList<>();
         list.add(fee);
         feeService.saveBatch(list);
+    }
 
-
-
+    @Test
+    public void queryUserFeeTest(){
+        FeeForm feeForm = new FeeForm();
+       // feeForm.setStartDate("2020-01-01");
+        feeForm.setType(0);
+        feeForm.setPhone("15521072884");
+        IPage<Fee> iPage = null;
+        iPage = feeService.queryUserFee(feeForm);
+        System.out.println(iPage.getTotal());
     }
 }

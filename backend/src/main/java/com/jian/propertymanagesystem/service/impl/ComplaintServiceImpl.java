@@ -52,16 +52,17 @@ public class ComplaintServiceImpl implements ComplaintService {
         } else {
             return 0;
         }
-        if (complaintImgs == null)
-            return  0;
+
         String path = baseImgPath+ PathUtil.seperator+dateTime;
         File file = new File(baseImgPath+ PathUtil.seperator+dateTime);
         if(!file.exists()){
             file.mkdirs();
         }
         try {
+            System.out.println("dao层执行了插入语句");
             complaintDao.insert(complaint);
             String fileName= null;
+            if (complaintImgs == null) return 1;
             for(int i=0;i<complaintImgs.size();i++){
                 fileName = UUID.randomUUID().toString().replace("-","")+"_"+complaintImgs.get(i).getOriginalFilename();
                 String addr = PathUtil.seperator + dateTime + PathUtil.seperator + fileName;
@@ -72,6 +73,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                 complaintImgDao.insert(complaintImg);
 
             }
+            if (complaintImgs == null) return 1;
             for (int i=0;i<complaintImgs.size();i++)
                 complaintImgs.get(i).transferTo(new File(path,fileName));
         } catch (RuntimeException e) {
@@ -83,10 +85,20 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public IPage<Complaint> queryAllRecords(Page<Complaint> page) {
+    public IPage<Complaint> queryAllRecords(Page<Complaint> page,String phone) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.orderByAsc("state","id");
+        if (phone != null &&  phone != ""){
+            queryWrapper.like("user_phone",phone);
+        }
         return complaintDao.selectPage(page,queryWrapper);
+    }
+
+    @Override
+    public IPage<Complaint> queryUserRecords(Page<Complaint> page, String phone) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_phone",phone);
+        return complaintDao.selectPage(page, queryWrapper);
     }
 
     @Override
@@ -95,6 +107,8 @@ public class ComplaintServiceImpl implements ComplaintService {
         updateWrapper.eq("id",complaintId);
         updateWrapper.set("state",1);
         updateWrapper.set("handler_id",handlerId);
+        Date date = new Date();
+        updateWrapper.set("handled_time",date);
         return complaintDao.update(null,updateWrapper);
     }
 }

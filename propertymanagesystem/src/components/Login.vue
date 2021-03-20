@@ -66,7 +66,7 @@ export default {
       };
       const validateUser = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入用户名'));
+          callback(new Error('请输入手机号'));
         } else{
             callback();
         }
@@ -112,6 +112,7 @@ export default {
                        const publicKey = response.data.data.publicKey;
                        window.sessionStorage.setItem('jsessionid',jsessionid);
                        window.sessionStorage.setItem('publicKey',publicKey);
+                       window.sessionStorage.setItem('phone',this.ruleForm.user);
                        this.$message.success("登录成功");
                        this.$router.push("/home");
                      } else

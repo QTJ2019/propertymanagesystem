@@ -54,6 +54,9 @@ public class CustomUserAuthenticationProvider implements AuthenticationProvider 
         //获取用户信息
         UserDetails user = userDetailsService.loadUserByUsername(username);
 
+        if (user == null){
+            throw new CredentialsExpiredException("没有该用户");
+        }
 
         if (!passwordEncoder.matches(decodePassword,user.getPassword())){
             throw  new CredentialsExpiredException("密码不一致");
